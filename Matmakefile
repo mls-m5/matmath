@@ -1,0 +1,19 @@
+
+flags +=
+    -Wextra
+    -Wall
+    -Wno-unused-parameter
+    -Wno-sign-compare
+    -Wsuggest-override
+    -Wpedantic
+    -fsanitize=address
+    -fsanitize-address-use-after-scope
+    -Wshadow-compatible-local
+
+config += debug
+
+includes += include
+
+src += test/%.cpp
+
+vec2_test.out = %

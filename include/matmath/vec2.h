@@ -3,25 +3,111 @@
 
 #include "pi.h"
 #include <cmath>
+#if __cplusplus >= 201103L
+#include <tuple>
+#endif
 
 template <class T>
 class Vec2T {
 public:
-    Vec2T(T x, T y);
-
     T x = 0, y = 0;
 
-    constexpr T abs2() {
+    constexpr Vec2T(T x = 0, T y = 0) : x(x), y(y) {
+    }
+
+    constexpr Vec2T(const Vec2T &) = default;
+    constexpr Vec2T(Vec2T &&) = default;
+    constexpr Vec2T &operator=(const Vec2T &) = default;
+    constexpr Vec2T &operator=(Vec2T &&) = default;
+
+    constexpr T abs2() const {
         return x * x + y * y;
     }
 
-    constexpr T abs() {
+    constexpr T abs() const {
         return sqrt(abs2());
     }
 
-    constexpr T length() {
+    constexpr T length() const {
         return abs();
     }
+
+    //! Relative angle
+    constexpr T angle(T a) const {
+        T angle = atan2(x, y) + a;
+
+        while (angle < pi) {
+            angle += pi2;
+        }
+
+        while (angle > pi) {
+            angle -= pi2;
+        }
+        return angle;
+    }
+
+    constexpr T angle() const {
+        return atan2(x, y);
+    }
+
+    constexpr Vec2T operator+(Vec2T v) const {
+        return {x + v.x, y + v.y};
+    }
+
+    constexpr Vec2T operator-(Vec2T v) const {
+        return {x - v.x, y - v.y};
+    }
+
+    //! Vector multiplication
+    //! @returns double
+    constexpr double operator*(Vec2T v) const {
+        return x * v.x + y * v.y;
+    }
+
+    constexpr Vec2T operator*(T value) const {
+        return {x * value, y * value};
+    }
+
+    constexpr Vec2T &operator*=(T value) {
+        x *= value;
+        y *= value;
+        return *this;
+    }
+
+    constexpr Vec2T &scale(T value) {
+        *this *= value;
+    }
+
+    constexpr Vec2T operator/(Vec2T v) const {
+        return {x / v.x, y / v.y};
+    }
+
+    constexpr Vec2T &operator+=(Vec2T v) {
+        x += v.x;
+        y += v.y;
+    }
+
+    constexpr Vec2T &operator-=(Vec2T v) {
+        x -= v.x;
+        y -= v.y;
+    }
+
+    constexpr bool isNear(const Vec2T &v, T e) {
+        return !(x + e < v.x || x > v.x + e || x + e < v.x || x > v.x + e);
+    }
+
+#if __cplusplus >= 201103L
+    // Convert to reference tuple<...>
+    // Operators to use with for example std::tie
+    // syntax example:
+    // VecT v(1, 2, 3);
+    // T x, y, z
+    // std::tie(x, y, z) = v
+    // result: x = 1, y = 2, z = 3
+    operator std::tuple<T &, T &>() {
+        return {x, y};
+    }
+#endif
 };
 
 template <class T>
