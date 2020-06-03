@@ -17,3 +17,4 @@ includes += include
 src += test/%.cpp
 
 vec2_test.out = %
+transform2_test.out = %

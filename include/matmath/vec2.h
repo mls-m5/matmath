@@ -3,6 +3,9 @@
 
 #include "pi.h"
 #include <cmath>
+#include <iostream>
+#include <limits>
+
 #if __cplusplus >= 201103L
 #include <tuple>
 #endif
@@ -10,11 +13,13 @@
 template <class T>
 class Vec2T {
 public:
+    static constexpr auto e = std::numeric_limits<T>::min();
     T x = 0, y = 0;
 
-    constexpr Vec2T(T x = 0, T y = 0) : x(x), y(y) {
+    constexpr Vec2T(T x, T y) : x(x), y(y) {
     }
 
+    constexpr Vec2T() = default;
     constexpr Vec2T(const Vec2T &) = default;
     constexpr Vec2T(Vec2T &&) = default;
     constexpr Vec2T &operator=(const Vec2T &) = default;
@@ -34,7 +39,7 @@ public:
 
     //! Relative angle
     constexpr T angle(T a) const {
-        T angle = atan2(x, y) + a;
+        T angle = atan2(x, y) - a;
 
         while (angle < pi) {
             angle += pi2;
@@ -92,8 +97,12 @@ public:
         y -= v.y;
     }
 
-    constexpr bool isNear(const Vec2T &v, T e) {
-        return !(x + e < v.x || x > v.x + e || x + e < v.x || x > v.x + e);
+    constexpr bool isNear(const Vec2T &v, T e) const {
+        return !(x + e < v.x || x > v.x + e || y + e < v.y || y > v.y + e);
+    }
+
+    constexpr bool operator==(const Vec2T &v) const {
+        return isNear(v, e);
     }
 
 #if __cplusplus >= 201103L
@@ -111,8 +120,14 @@ public:
 };
 
 template <class T>
-T abs(const Vec2T<T> &v) {
+constexpr T abs(const Vec2T<T> &v) {
     return v.abs();
+}
+
+template <class T>
+constexpr std::ostream &operator<<(std::ostream &stream, const Vec2T<T> &v) {
+    stream << "(" << v.x << ", " << v.y << ")";
+    return stream;
 }
 
 using Vec2f = Vec2T<float>;
