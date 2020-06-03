@@ -59,7 +59,87 @@ TEST_CASE("lerping rotation") {
 TEST_CASE("transform position") {
     constexpr Transform2 t1({1, 2}, 0);
 
-    ASSERT_EQ((t1 * Vec2{3, 4}), (Vec2{5, 6}));
+    ASSERT_EQ((t1 * Vec2{3, 4}), (Vec2{4, 6}));
 }
 
+TEST_CASE("multiplying transforms (pos only)") {
+    {
+        constexpr Transform2 t1({0, 0}, 0);
+        constexpr Transform2 t2({3, 4}, 0);
+
+        const auto t3 = t1 * t2;
+        const auto t4 = Transform2{{3, 4}, 0};
+        ASSERT_EQ(t3, t4);
+    }
+    {
+        constexpr Transform2 t1({3, 4}, 0);
+        constexpr Transform2 t2({0, 0}, 0);
+
+        const auto t3 = t1 * t2;
+        const auto t4 = Transform2{{3, 4}, 0};
+        ASSERT_EQ(t3, t4);
+    }
+    {
+        constexpr Transform2 t1({1, 2}, 0);
+        constexpr Transform2 t2({3, 4}, 0);
+
+        const auto t3 = t1 * t2;
+        const auto t4 = Transform2{{4, 6}};
+        ASSERT_EQ(t3, t4);
+    }
+}
+
+TEST_CASE("multiplying transforms (rot only)") {
+    {
+        constexpr Transform2 t1({0, 0}, 0);
+        constexpr Transform2 t2({0, 0}, {0, 1});
+
+        const auto t3 = t1 * t2;
+        const auto t4 = Transform2{{0, 0}, {0, 1}};
+        ASSERT_EQ(t3, t4);
+    }
+    {
+        constexpr Transform2 t1({0, 0}, {0, 1});
+        constexpr Transform2 t2({0, 0}, 0);
+
+        const auto t3 = t1 * t2;
+        const auto t4 = Transform2{{0, 0}, {0, 1}};
+        ASSERT_EQ(t3, t4);
+    }
+    {
+        constexpr Transform2 t1({0, 0}, {0, 1});
+        constexpr Transform2 t2({0, 0}, {0, 1});
+
+        const auto t3 = t1 * t2;
+        const auto t4 = Transform2{{0, 0}, {-1, 0}};
+        ASSERT_EQ(t3, t4);
+    }
+}
+
+TEST_CASE("multiplying transforms (pos rot)") {
+    {
+        constexpr Transform2 t1({1, 2}, 0);
+        constexpr Transform2 t2({0, 0}, {0, 1});
+
+        const auto t3 = t1 * t2;
+        const auto t4 = Transform2{{1, 2}, {0, 1}};
+        ASSERT_EQ(t3, t4);
+    }
+    {
+        constexpr Transform2 t1({0, 0}, {0, 1});
+        constexpr Transform2 t2({1, 2}, 0);
+
+        const auto t3 = t1 * t2;
+        const auto t4 = Transform2{{2, -1}, {0, 1}};
+        ASSERT_EQ(t3, t4);
+    }
+    {
+        constexpr Transform2 t1({0, 0}, {-1, 0});
+        constexpr Transform2 t2({1, 0}, {1, 0});
+
+        const auto t3 = t1 * t2;
+        const auto t4 = Transform2{{-1, 0}, {-1, 0}};
+        ASSERT_EQ(t3, t4);
+    }
+}
 TEST_SUIT_END

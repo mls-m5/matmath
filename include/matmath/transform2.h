@@ -3,7 +3,6 @@
 
 #include "constmath.h"
 #include "vec2.h"
-#include <complex>
 #include <iosfwd>
 
 template <class T>
@@ -37,8 +36,35 @@ public:
         };
     }
 
+    constexpr Transform2T operator*(Transform2T other) const {
+        return {
+            *this * other.pos,
+            {
+                rotation.x * other.rotation.x - rotation.y * other.rotation.y,
+                rotation.x * other.rotation.y + rotation.y * other.rotation.x,
+            },
+        };
+    }
+
     constexpr bool operator==(Transform2T t) const {
         return pos == t.pos;
+    }
+
+    constexpr static Transform2T Scale(double value) {
+        return Transform2T{{}, {value, 0}};
+    }
+
+    constexpr static Transform2T Translate(Vec2T<T> v) {
+        return {v};
+    }
+
+    constexpr static Transform2T Identity() {
+        return {};
+    }
+
+    //! More readable version to create rotation transform
+    constexpr static Transform2T Rotation(double angle) {
+        return {{}, angle};
     }
 
     Vec2T<T> pos;
