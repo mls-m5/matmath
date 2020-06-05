@@ -142,4 +142,12 @@ TEST_CASE("multiplying transforms (pos rot)") {
         ASSERT_EQ(t3, t4);
     }
 }
+
+TEST_CASE("scaling") {
+    constexpr auto t = Transform2{{0, 0}, 0, 10};
+    constexpr auto v = Vec2{1, 2};
+
+    ASSERT_EQ((t * v), (Vec2{10, 20}));
+}
+
 TEST_SUIT_END

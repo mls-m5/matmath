@@ -125,6 +125,16 @@ constexpr T abs(const Vec2T<T> &v) {
 }
 
 template <class T>
+constexpr auto operator*(T amount, Vec2T<T> v) {
+    return v * amount;
+}
+
+template <class T>
+constexpr auto operator/(T amount, Vec2T<T> v) {
+    return v / amount;
+}
+
+template <class T>
 constexpr std::ostream &operator<<(std::ostream &stream, const Vec2T<T> &v) {
     stream << "(" << v.x << ", " << v.y << ")";
     return stream;
