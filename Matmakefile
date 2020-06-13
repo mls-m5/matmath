@@ -18,3 +18,5 @@ src += test/%.cpp
 
 vec2_test.out = %
 transform2_test.out = %
+quaternion_test.out = %
+matrix_test.out = %
