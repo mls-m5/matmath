@@ -60,7 +60,6 @@ public:
         return at(i);
     }
 
-
     inline T operator()(int i) const {
         return at(i);
     }
@@ -72,7 +71,6 @@ public:
     inline T operator()(int x, int y) const {
         return at(x, y);
     }
-
 
     inline T &operator()(int x, int y) {
         return at(x, y);
@@ -183,7 +181,6 @@ public:
         return *this;
     }
 
-
     Matrix operator*(const Matrix &m) const {
         Matrix product;
 
@@ -200,7 +197,6 @@ public:
         return product;
     }
 
-
     Vec operator*(const Vec &v) const {
         Vec product;
 
@@ -213,7 +209,6 @@ public:
             product[x] = value + (&x4)[x];
         }
 
-
         return product;
     }
 
@@ -222,7 +217,6 @@ public:
         (*this) = mTemp;
         return *this;
     }
-
 
     template <class type>
     Matrix operator-(const Matrix<type> &m) const {
@@ -243,7 +237,6 @@ public:
         return sum;
     }
 
-
     T abs2() {
         T sum = 0;
         for (int i = 0; i < 16; ++i) {
@@ -257,7 +250,6 @@ public:
         return sqrt(abs2());
     }
 
-
     // Return a transposed copy of the matrix
     Matrix transpose() const {
         Matrix ret;
@@ -267,7 +259,6 @@ public:
             }
         return ret;
     }
-
 
     // The heaviest invertion method
     // Invert a invertible matrix
@@ -449,7 +440,6 @@ public:
         return p;
     }
 
-
     inline Vec row(int num) const {
         return Vec(at(0, num), at(1, num), at(2, num));
     }
@@ -525,7 +515,6 @@ public:
     inline static Matrix Translation(Vec v) {
         return Translation(v.x, v.y, v.z);
     }
-
 
     template <class type>
     Matrix &operator=(const type *p) {
@@ -631,7 +620,6 @@ public:
         return m;
     }
 
-
     static Matrix RotationY(double angle) {
         Matrix m = Identity();
         double c = cos(angle);
@@ -642,7 +630,6 @@ public:
         m.z3 = -c;
         return m;
     }
-
 
     static Matrix RotationZ(double angle) {
         Matrix m = Identity();
@@ -655,7 +642,6 @@ public:
         return m;
     }
 
-
     Matrix rotationPart() {
         Matrix product = *this;
         product.x4 = 0;
@@ -664,7 +650,6 @@ public:
         product.w4 = 1;
         return product;
     }
-
 
     // Notice the format
     // The rows below is what is usually
@@ -677,7 +662,6 @@ public:
     T x3 = 0, y3 = 0, z3 = 1, w3 = 0;
     T x4 = 0, y4 = 0, z4 = 0, w4 = 1;
 };
-
 
 typedef Matrix<float> Matrixf;
 typedef Matrix<double> Matrixd;

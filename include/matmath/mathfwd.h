@@ -6,6 +6,7 @@ template <typename T>
 class VecT;
 
 using Vec = VecT<double>;
+using Vecd = VecT<double>;
 using Vecf = VecT<float>;
 
 template <typename T>
