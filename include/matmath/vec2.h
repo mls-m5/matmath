@@ -90,11 +90,13 @@ public:
     constexpr Vec2T &operator+=(Vec2T v) {
         x += v.x;
         y += v.y;
+        return *this;
     }
 
     constexpr Vec2T &operator-=(Vec2T v) {
         x -= v.x;
         y -= v.y;
+        return *this;
     }
 
     constexpr bool isNear(const Vec2T &v, T e) const {
