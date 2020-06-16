@@ -83,7 +83,7 @@ public:
     }
 
     //! @brief scale all axis independently
-    VecT &scale(T x, T y, T z) {
+    constexpr VecT &scale(T x, T y, T z) {
         this->x *= x;
         this->y *= y;
         this->z *= z;
@@ -110,7 +110,7 @@ public:
         return VecT(x + v.x, y + v.y, z + v.z);
     }
 
-    inline T &operator[](int index) {
+    constexpr T &operator[](int index) {
         return (&x)[index];
     }
 
@@ -137,7 +137,7 @@ public:
         return x * x + y * y + z * z;
     }
 
-    VecT &normalize() {
+    constexpr VecT &normalize() {
         *this /= abs();
         return *this;
     }
@@ -189,23 +189,23 @@ public:
 
 //! @brief Write as a string to output
 template <class T>
-inline std::ostream &operator<<(std::ostream &out, const VecT<T> &v) {
+constexpr std::ostream &operator<<(std::ostream &out, const VecT<T> &v) {
     out << v.x << ", " << v.y << ", " << v.z;
     return out;
 }
 
 template <class T, class U>
-inline auto operator*(T f, const VecT<U> &v) {
+constexpr auto operator*(T f, const VecT<U> &v) {
     return v * f;
 }
 
 template <typename T>
-inline T abs(const VecT<T> &v) {
+constexpr T abs(const VecT<T> &v) {
     return v.abs();
 }
 
 template <class Ar, typename T>
-void serialize(Ar &ar, VecT<T> &v) {
+constexpr void serialize(Ar &ar, VecT<T> &v) {
     ar &v.x;
     ar &v.y;
     ar &v.z;
