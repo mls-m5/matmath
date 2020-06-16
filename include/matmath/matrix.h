@@ -13,7 +13,7 @@ template <class T>
 class Matrix {
 public:
     // clang-format off
-    Matrix(T x1    , T y1 = 0, T z1 = 0, T w1 = 0, //
+    constexpr Matrix(T x1    , T y1 = 0, T z1 = 0, T w1 = 0, //
            T x2 = 0, T y2 = 1, T z2 = 0, T w2 = 0, //
            T x3 = 0, T y3 = 0, T z3 = 1, T w3 = 0, //
            T x4 = 0, T y4 = 0, T z4 = 0, T w4 = 1)
@@ -24,67 +24,67 @@ public:
     {}
     // clang-format on
 
-    Matrix() = default;
-    Matrix(const Matrix &) = default;
-    Matrix &operator=(const Matrix &) = default;
+    constexpr Matrix() = default;
+    constexpr Matrix(const Matrix &) = default;
+    constexpr Matrix &operator=(const Matrix &) = default;
 
-    inline T *get() {
+    constexpr T *get() {
         return &x1;
     }
 
-    inline T *get() const {
+    constexpr T *get() const {
         return &x1;
     }
 
-    inline T &at(int i) {
+    constexpr T &at(int i) {
         return (&x1)[i];
     }
 
-    inline T at(int i) const {
+    constexpr T at(int i) const {
         return (&x1)[i];
     }
 
-    inline T &at(int x, int y) {
+    constexpr T &at(int x, int y) {
         return at(x + y * 4);
     }
 
-    inline T at(int x, int y) const {
+    constexpr T at(int x, int y) const {
         return at(x + y * 4);
     }
 
-    inline T &operator[](int i) {
+    constexpr T &operator[](int i) {
         return at(i);
     }
 
-    inline T operator[](int i) const {
+    constexpr T operator[](int i) const {
         return at(i);
     }
 
-    inline T operator()(int i) const {
+    constexpr T operator()(int i) const {
         return at(i);
     }
 
-    inline T &operator()(int i) {
+    constexpr T &operator()(int i) {
         return at(i);
     }
 
-    inline T operator()(int x, int y) const {
+    constexpr T operator()(int x, int y) const {
         return at(x, y);
     }
 
-    inline T &operator()(int x, int y) {
+    constexpr T &operator()(int x, int y) {
         return at(x, y);
     }
 
-    operator T *() {
+    constexpr operator T *() {
         return &x1;
     }
 
-    operator const T *() const {
+    constexpr operator const T *() const {
         return &x1;
     }
 
-    Matrix &identity() {
+    constexpr Matrix &identity() {
         // clang-format off
         *this = {
             1, 0, 0, 0,
@@ -96,44 +96,44 @@ public:
         return *this;
     }
 
-    Matrix &clear() {
+    constexpr Matrix &clear() {
         for (int i = 0; i < 16; ++i) {
             at(i) = 0;
         }
         return *this;
     }
 
-    Matrix &fill(T value) {
+    constexpr Matrix &fill(T value) {
         for (int i = 0; i < 16; ++i) {
             at(i) = value;
         }
         return *this;
     }
 
-    Matrix &translate(T x, T y, T z = 0) {
+    constexpr Matrix &translate(T x, T y, T z = 0) {
         x4 += x;
         y4 += y;
         z4 += z;
         return *this;
     }
 
-    Matrix &translate(Vec p) {
+    constexpr Matrix &translate(Vec p) {
         return translate(p.x, p.y, p.z);
     }
 
     // Set the tranlation in absolute numbers
-    Matrix &setTranslation(T x, T y, T z = 0.) {
+    constexpr Matrix &setTranslation(T x, T y, T z = 0.) {
         x4 = x;
         y4 = y;
         z4 = z;
         return *this;
     }
 
-    inline Matrix &setTranslation(const Vec &v) {
+    constexpr Matrix &setTranslation(const Vec &v) {
         return setTranslation(v.x, v.y, v.z);
     }
 
-    Matrix &scale(T x, T y, T z = 1.) {
+    constexpr Matrix &scale(T x, T y, T z = 1.) {
         // clang-format off
         x1 *= x; y1 *= y; z1 *= z;
         x2 *= x; y2 *= y; z2 *= z;
@@ -143,11 +143,11 @@ public:
         return *this;
     }
 
-    inline Matrix &scale(Vec v) {
+    constexpr Matrix &scale(Vec v) {
         return scale(v.x, v.y, v.z);
     }
 
-    Matrix &scaleLocal(T x, T y, T z) {
+    constexpr Matrix &scaleLocal(T x, T y, T z) {
         // clang-format off
         x1 *= x; y1 *= x; z1 *= x;
         x2 *= y; y2 *= y; z2 *= y;
@@ -156,20 +156,20 @@ public:
         return *this;
     }
 
-    inline Matrix &scaleLocal(const Vec &v) {
+    constexpr Matrix &scaleLocal(const Vec &v) {
         return scaleLocal(v.x, v.y, v.z);
     }
 
     // Return the local scale
-    Vec scale() {
+    constexpr Vec scale() {
         return Vec(row(0).abs(), row(1).abs(), row(2).abs());
     }
 
-    Matrix &scale(T s) {
+    constexpr Matrix &scale(T s) {
         return scale(s, s, s);
     }
 
-    Matrix &normalizeScale() {
+    constexpr Matrix &normalizeScale() {
         auto l1 = (T)1. / sqrt(x1 * x1 + y1 * y1 + z1 * z1);
         auto l2 = (T)1. / sqrt(x2 * x2 + y2 * y2 + z2 * z2);
         auto l3 = (T)1. / sqrt(x3 * x3 + y3 * y3 + z3 * z3);
@@ -181,7 +181,7 @@ public:
         return *this;
     }
 
-    Matrix operator*(const Matrix &m) const {
+    constexpr Matrix operator*(const Matrix &m) const {
         Matrix product;
 
         for (int y = 0; y < 4; ++y)
@@ -197,7 +197,7 @@ public:
         return product;
     }
 
-    Vec operator*(const Vec &v) const {
+    constexpr Vec operator*(const Vec &v) const {
         Vec product;
 
         for (int x = 0; x < 3; ++x) {
@@ -212,14 +212,14 @@ public:
         return product;
     }
 
-    Matrix &operator*=(const Matrix &m) {
+    constexpr Matrix &operator*=(const Matrix &m) {
         Matrix mTemp(*this * m);
         (*this) = mTemp;
         return *this;
     }
 
     template <class type>
-    Matrix operator-(const Matrix<type> &m) const {
+    constexpr Matrix operator-(const Matrix<type> &m) const {
         Matrix difference;
 
         for (int i = 0; i < 16; ++i) {
@@ -229,7 +229,7 @@ public:
         return difference;
     }
 
-    T sum() {
+    constexpr T sum() const {
         T sum = 0;
         for (int i = 0; i < 16; ++i) {
             sum += at(i);
@@ -237,7 +237,7 @@ public:
         return sum;
     }
 
-    T abs2() {
+    constexpr T abs2() const {
         T sum = 0;
         for (int i = 0; i < 16; ++i) {
             T value = at(i);
@@ -246,12 +246,12 @@ public:
         return sum;
     }
 
-    T abs() {
+    constexpr T abs() const {
         return sqrt(abs2());
     }
 
     // Return a transposed copy of the matrix
-    Matrix transpose() const {
+    constexpr Matrix transpose() const {
         Matrix ret;
         for (int i = 0; i < 4; ++i)
             for (int j = 0; j < 4; ++j) {
@@ -264,13 +264,13 @@ public:
     // Invert a invertible matrix
     // Consider using inverseOrthogonal or inverseNormalized for faster
     // computations
-    Matrix inverse() {
+    constexpr Matrix inverse() const {
         // https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix
         auto &m = *this;
         Matrix inv;
-        double det;
+        double det = 0;
 
-        int i;
+        int i = 0;
 
         // clang-format off
         inv[0] = m[5]  * m[10] * m[15] -
@@ -403,7 +403,7 @@ public:
 
     // Inverse a orthogonal rotation + translation matrix
     // That is a matrix with rows 1 2 3 othogonal and row 4 as translation
-    Matrix inverseOrthogonal() {
+    constexpr Matrix inverseOrthogonal() const {
         // clang-format off
         auto l1 = (T)1. / (x1 * x1 + x2 * x2 + x3 * x3);
         auto l2 = (T)1. / (y1 * y1 + y2 * y2 + y3 * y3);
@@ -424,7 +424,7 @@ public:
 
     // Inverse a normalized transformation matrix
     // That is a matrix with rows 1 2 3 with x*x + y*y + z*z = 1
-    Matrix inverseNormalized() {
+    constexpr Matrix inverseNormalized() const {
         // clang-format off
         Matrix p = {
             x1, x2, x3, 0,
@@ -440,7 +440,7 @@ public:
         return p;
     }
 
-    inline Vec row(int num) const {
+    constexpr Vec row(int num) const {
         return Vec(at(0, num), at(1, num), at(2, num));
     }
 
@@ -448,7 +448,7 @@ public:
         return row(num);
     }
 
-    inline Vec col(int num) const {
+    constexpr Vec col(int num) const {
         return Vec(at(num, 0), at(num, 1), at(num, 2));
     }
 
@@ -456,7 +456,7 @@ public:
         return col(num);
     }
 
-    inline Matrix &row(int num, Vec v) {
+    constexpr Matrix &row(int num, Vec v) {
         at(0, num) = v.x;
         at(1, num) = v.y;
         at(2, num) = v.z;
@@ -468,7 +468,7 @@ public:
         return row(num, v);
     }
 
-    inline Matrix &col(int num, Vec v) {
+    constexpr Matrix &col(int num, Vec v) {
         at(num, 0) = v.x;
         at(num, 1) = v.y;
         at(num, 2) = v.z;
@@ -481,7 +481,7 @@ public:
         return col(num, v);
     }
 
-    Matrix flippedCol(int col1, int col2) {
+    constexpr Matrix flippedCol(int col1, int col2) const {
         Matrix ret = *this;
         for (int y = 0; y < 4; ++y) {
             ret(col1, y) = at(col2, y);
@@ -490,7 +490,7 @@ public:
         return ret;
     }
 
-    static Matrix Identity() {
+    constexpr static Matrix Identity() {
         // clang-format off
         return Matrix({
             1, 0, 0, 0,
@@ -501,7 +501,7 @@ public:
         // clang-format on
     }
 
-    inline static Matrix Translation(T x, T y, T z = 0) {
+    constexpr static Matrix Translation(T x, T y, T z = 0) {
         // clang-format off
         return Matrix({
             1, 0, 0, 0,
@@ -512,12 +512,12 @@ public:
         // clang-format on
     }
 
-    inline static Matrix Translation(Vec v) {
+    constexpr static Matrix Translation(Vec v) {
         return Translation(v.x, v.y, v.z);
     }
 
     template <class type>
-    Matrix &operator=(const type *p) {
+    constexpr Matrix &operator=(const type *p) {
         for (int i = 0; i < 16; ++i) {
             at(i) = p(i);
         }
@@ -526,7 +526,7 @@ public:
 
     //! Convert to Matrix of new type
     template <class type>
-    operator Matrix<type>() {
+    constexpr operator Matrix<type>() const {
         Matrix<type> ret;
         for (int i = 0; i < 16; ++i) {
             ret[i] = at(i);
@@ -534,7 +534,7 @@ public:
         return ret;
     }
 
-    static Matrix Scale(T x, T y, T z = 1) {
+    constexpr static Matrix Scale(T x, T y, T z = 1) {
         // clang-format off
         return Matrix({
             x, 0, 0, 0,
@@ -545,24 +545,24 @@ public:
         // clang-format on
     }
 
-    static Matrix Scale(T s) {
+    constexpr static Matrix Scale(T s) {
         return Scale(s, s, s);
     }
 
-    Matrix &rotate(T angle, Vec axis) {
+    constexpr Matrix &rotate(T angle, Vec axis) {
         Vec position = row(3);
         *this = rotationFromThis(angle, axis);
         row(3, position);
         return *this;
     }
 
-    static Matrix Rotation(T angle, Vec axis) {
+    constexpr static Matrix Rotation(T angle, Vec axis) {
         return Identity().rotationFromThis(angle, axis);
     }
 
     // This is borrowed from
     // https://github.com/LWJGL --> Matrix4f
-    Matrix rotationFromThis(T angle, Vec axis) const {
+    constexpr Matrix rotationFromThis(T angle, Vec axis) const {
         Matrix dest = Identity();
         T c = (T)cos(angle);
         T s = (T)sin(angle);
@@ -609,7 +609,7 @@ public:
         return dest;
     }
 
-    static Matrix RotationX(double angle) {
+    constexpr static Matrix RotationX(double angle) {
         Matrix m = Identity();
         double c = cos(angle);
         double s = sin(angle);
@@ -620,7 +620,7 @@ public:
         return m;
     }
 
-    static Matrix RotationY(double angle) {
+    constexpr static Matrix RotationY(double angle) {
         Matrix m = Identity();
         double c = cos(angle);
         double s = sin(angle);
@@ -631,7 +631,7 @@ public:
         return m;
     }
 
-    static Matrix RotationZ(double angle) {
+    static constexpr Matrix RotationZ(double angle) {
         Matrix m = Identity();
         double c = cos(angle);
         double s = sin(angle);
@@ -642,7 +642,7 @@ public:
         return m;
     }
 
-    Matrix rotationPart() {
+    constexpr Matrix rotationPart() const {
         Matrix product = *this;
         product.x4 = 0;
         product.y4 = 0;
@@ -667,6 +667,6 @@ typedef Matrix<float> Matrixf;
 typedef Matrix<double> Matrixd;
 
 template <class T>
-T abs(Matrix<T> m) {
+constexpr T abs(Matrix<T> m) {
     return m.abs();
 }
