@@ -1,4 +1,5 @@
-// Copyright © Mattias Larsson Sköld 2020
+//! Copyright © Mattias Larsson Sköld 2020
+//! Distributed under terms specified under licence.txt
 
 #pragma once
 

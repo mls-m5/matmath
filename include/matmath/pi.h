@@ -1,4 +1,5 @@
-// Common include file
+//! Pi constants. Copyright Mattias Larsson Sköld 2020
+//! Distributed under terms specified under licence.txt
 
 #pragma once
 

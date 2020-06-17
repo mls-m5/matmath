@@ -1,4 +1,6 @@
 //! Vec2: Copyright © Mattias Larsson Sköld 2020
+//! Distributed under terms specified under licence
+
 #pragma once
 
 #include "pi.h"

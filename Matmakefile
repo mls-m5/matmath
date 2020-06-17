@@ -1,3 +1,5 @@
+# Matmake file
+# https://github.com/mls-m5/matmake
 
 flags +=
     -Wextra
@@ -10,7 +12,9 @@ flags +=
     -fsanitize-address-use-after-scope
     -Wshadow-compatible-local
 
-config += debug
+config +=
+   debug
+   c++14
 
 includes += include
 

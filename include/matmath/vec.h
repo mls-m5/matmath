@@ -1,8 +1,5 @@
-/*
- * vec.h
- *
- *      Author: Mattias Larsson Sköld
- */
+//! vec.h: Copyright Mattias Larsson Sköld 2020
+//! Distributed under terms specified under licence.txt
 
 #pragma once
 

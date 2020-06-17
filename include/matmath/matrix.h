@@ -1,9 +1,6 @@
-/*
- * matrix.h
- *
- *  Created on: 3 sep. 2018
- *      Author: Mattias Larsson Sköld
- */
+//!  Created on: 3 sep. 2018
+//! Copyright Mattias Larsson Sköld 2020
+//! Distributed under terms specified under licence.txt
 
 #pragma once
 
