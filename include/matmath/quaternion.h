@@ -5,11 +5,9 @@
  *      Author: Mattias Larsson Sköld
  */
 
-
 #pragma once
 
 #include "matrix.h"
-
 
 struct Quaternion {
     typedef float T;

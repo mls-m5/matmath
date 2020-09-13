@@ -17,12 +17,10 @@ public:
     T x = 0, y = 0, z = 0;
 
     constexpr VecT() = default;
-    constexpr VecT(T nx, T ny, T nz = 0) : x(nx), y(ny), z(nz) {
-    }
+    constexpr VecT(T nx, T ny, T nz = 0) : x(nx), y(ny), z(nz) {}
 
     template <typename U>
-    constexpr VecT(const VecT<U> &v) : x(v.x), y(v.y), z(v.z) {
-    }
+    constexpr VecT(const VecT<U> &v) : x(v.x), y(v.y), z(v.z) {}
 
     template <class pointerType>
     constexpr VecT(const pointerType *p) {

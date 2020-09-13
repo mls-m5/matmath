@@ -18,8 +18,7 @@ public:
     static constexpr auto e = std::numeric_limits<T>::min();
     T x = 0, y = 0;
 
-    constexpr Vec2T(T x, T y) : x(x), y(y) {
-    }
+    constexpr Vec2T(T x, T y) : x(x), y(y) {}
 
     constexpr Vec2T() = default;
     constexpr Vec2T(const Vec2T &) = default;

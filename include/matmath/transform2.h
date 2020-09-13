@@ -12,13 +12,11 @@ public:
     static constexpr auto e = std::numeric_limits<T>::min();
 
     constexpr Transform2T(Vec2T<T> pos, Vec2T<T> rotation = {1, 0})
-        : pos(pos), rotation(rotation) {
-    }
+        : pos(pos), rotation(rotation) {}
 
     constexpr Transform2T(Vec2T<T> pos, double angle, double scale = 1)
         : pos(pos), rotation(scale * constmath::cos(angle),
-                             scale * constmath::sin(angle)) {
-    }
+                             scale * constmath::sin(angle)) {}
 
     // Everything else is default
     constexpr Transform2T() = default;
