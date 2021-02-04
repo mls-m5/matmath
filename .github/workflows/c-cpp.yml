@@ -1,0 +1,25 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: update submodules
+      run: git submodule update --init
+    - name: clone matmake
+      run: git clone https://github.com/mls-m5/matmake.git
+    - name: install matmake
+      run: make -C matmake install
+    - name: run matmake
+      run: matmake
+    - name: run tests
+      run: matmake test
