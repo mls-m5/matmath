@@ -20,7 +20,7 @@ includes += include
 
 src += test/%.cpp
 
-vec2_test.out = %
-transform2_test.out = %
-quaternion_test.out = %
-matrix_test.out = %
+vec2_test.out = test %
+transform2_test.out = test %
+quaternion_test.out = test %
+matrix_test.out = test %
