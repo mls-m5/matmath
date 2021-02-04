@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: update submodules
+      run: git submodule update --init
     - name: clone matmake
       run: git clone https://github.com/mls-m5/matmake.git
     - name: install matmake
