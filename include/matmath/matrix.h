@@ -4,9 +4,15 @@
 
 #pragma once
 
+#ifndef matmath_export
+
+#define matmake_export
+
 #include "vec.h"
 
-template <class T>
+#endif
+
+matmath_export template <class T>
 class Matrix {
 public:
     // clang-format off
@@ -78,6 +84,14 @@ public:
     }
 
     constexpr operator const T *() const {
+        return &x1;
+    }
+
+    constexpr T *data() {
+        return &x1;
+    }
+
+    constexpr const T *data() const {
         return &x1;
     }
 
@@ -660,10 +674,10 @@ public:
     T x4 = 0, y4 = 0, z4 = 0, w4 = 1;
 };
 
-typedef Matrix<float> Matrixf;
-typedef Matrix<double> Matrixd;
+matmath_export typedef Matrix<float> Matrixf;
+matmath_export typedef Matrix<double> Matrixd;
 
-template <class T>
+matmath_export template <class T>
 constexpr T abs(Matrix<T> m) {
     return m.abs();
 }

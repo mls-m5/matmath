@@ -5,8 +5,8 @@
 
 #include "pi.h"
 #include <cmath>
-#include <iostream>
 #include <limits>
+#include <ostream>
 
 #if __cplusplus >= 201103L
 #include <tuple>
