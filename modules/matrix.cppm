@@ -1,10 +1,9 @@
 
 #include <cmath>
 
-import vec;
+import matmath.vec;
 
-export module matrix;
+export module matmath.matrix;
 
-#define matmath_export export
-
+#define matmath_use_modules
 #include "matmath/matrix.h"

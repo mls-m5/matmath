@@ -7,9 +7,16 @@
 
 #pragma once
 
-#include "matrix.h"
+#include "matmath/export.h"
 
-struct Quaternion {
+#ifndef matmath_use_modules
+
+#include "matrix.h"
+#include <cmath>
+
+#endif
+
+matmath_export struct Quaternion {
     typedef float T;
     T w = 1, x = 0, y = 0, z = 0;
 

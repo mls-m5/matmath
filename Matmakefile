@@ -1,7 +1,14 @@
 # Matmake file
-# https://github.com/mls-m5/matmake
+# https://github.com/laserskold/matmake2
 
-flags +=
+all
+  in =
+    @vec2_test
+    @transform2_test
+    @quaternion_test
+    @matrix_test
+    @modules_test
+  flags =
     -Wextra
     -Wall
     -Wno-unused-parameter
@@ -10,17 +17,39 @@ flags +=
     -Wpedantic
     -fsanitize=address
     -fsanitize-address-use-after-scope
-    -Wshadow-compatible-local
+  config =
+    debug
+    c++14
+  includes =
+    include
 
-config +=
-   debug
-   c++14
 
-includes += include
+vec2_test
+  out = vec2_test
+  src = test/vec2_test.cpp
+  command = [test]
 
-src += test/%.cpp
+transform2_test
+  out = transform2_test
+  src = test/transform2_test.cpp
+  command = [test]
 
-vec2_test.out = test %
-transform2_test.out = test %
-quaternion_test.out = test %
-matrix_test.out = test %
+quaternion_test
+  out = quaternion_test
+  src = test/quaternion_test.cpp
+  command = [test]
+
+matrix_test
+  out = matrix_test
+  src = test/matrix_test.cpp
+  command = [test]
+
+modules_test
+  out = modules_test
+  src =
+    test/modules_test.cpp
+    modules/*.cppm
+  command = [test]
+  config =
+    c++17
+    modules

@@ -4,11 +4,12 @@
 
 #pragma once
 
-#ifndef matmath_export
+#include "export.h"
 
-#define matmake_export
+#ifndef matmath_use_modules
 
 #include "vec.h"
+#include <cmath>
 
 #endif
 

@@ -3,15 +3,17 @@
 
 #pragma once
 
-template <typename T>
+#include "matmath/export.h"
+
+matmath_export template <typename T>
 class VecT;
 
-using Vec = VecT<double>;
-using Vecd = VecT<double>;
-using Vecf = VecT<float>;
+matmath_export using Vec = VecT<double>;
+matmath_export using Vecd = VecT<double>;
+matmath_export using Vecf = VecT<float>;
 
-template <typename T>
+matmath_export template <typename T>
 class Matrix;
 
-using Matrixf = Matrix<float>;
-using Matrixd = Matrix<double>;
+matmath_export using Matrixf = Matrix<float>;
+matmath_export using Matrixd = Matrix<double>;
