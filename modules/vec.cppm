@@ -1,5 +1,6 @@
 
 #include "matmath/pi.h"
+#include <cmath>
 #include <ostream>
 
 export module vec;
