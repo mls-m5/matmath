@@ -3,12 +3,16 @@
 
 #pragma once
 
+#include "matmath/export.h"
+
+#ifndef matmath_use_modules
 #include "pi.h"
+#endif
 
 namespace constmath {
 
 //! Constant abs
-template <typename T>
+matmath_export template <typename T>
 constexpr T cabs(T x) {
     if (x >= 0) {
         return x;
@@ -18,7 +22,7 @@ constexpr T cabs(T x) {
     }
 }
 
-template <typename T>
+matmath_export template <typename T>
 constexpr T floor(T x) {
     long long num = (long long)x;
     if (x >= 0) {
@@ -29,7 +33,7 @@ constexpr T floor(T x) {
     }
 }
 
-template <typename T>
+matmath_export template <typename T>
 constexpr T round(T x) {
     return floor(x + .5);
 }
@@ -57,7 +61,7 @@ constexpr double whole_pow(double x, int power) {
 } // namespace detail
 
 //! Constexpr version of sin
-template <typename T>
+matmath_export template <typename T>
 constexpr T sin(T x) {
     // Fold angle to always be around 0
     x -= (pi2)*round(x / (pi2));
@@ -79,19 +83,19 @@ constexpr T sin(T x) {
 }
 
 //! Constexpr version of cos
-template <typename T>
+matmath_export template <typename T>
 constexpr T cos(T x) {
     return sin(x + pi / 2.);
 }
 
-template <typename T>
+matmath_export template <typename T>
 constexpr T atan2(T x, T y) {
     // Todo: implement this
 
     return 0;
 }
 
-template <typename T>
+matmath_export template <typename T>
 constexpr T sqrt(T x) {
     // Todo: implement this
     return 0;

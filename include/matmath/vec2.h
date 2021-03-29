@@ -3,16 +3,22 @@
 
 #pragma once
 
+#include "matmath/export.h"
+
+#ifndef matmath_use_modules
+
 #include "pi.h"
 #include <cmath>
-#include <iostream>
 #include <limits>
+#include <ostream>
 
 #if __cplusplus >= 201103L
 #include <tuple>
 #endif
 
-template <class T>
+#endif
+
+matmath_export template <class T>
 class Vec2T {
 public:
     static constexpr auto e = std::numeric_limits<T>::min();
@@ -108,7 +114,7 @@ public:
         return isNear(v, e);
     }
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L && !defined(matmath_use_modules)
     // Convert to reference tuple<...>
     // Operators to use with for example std::tie
     // syntax example:
@@ -122,27 +128,27 @@ public:
 #endif
 };
 
-template <class T>
+matmath_export template <class T>
 constexpr T abs(const Vec2T<T> &v) {
     return v.abs();
 }
 
-template <class T>
+matmath_export template <class T>
 constexpr auto operator*(T amount, Vec2T<T> v) {
     return v * amount;
 }
 
-template <class T>
+matmath_export template <class T>
 constexpr auto operator/(T amount, Vec2T<T> v) {
     return v / amount;
 }
 
-template <class T>
+matmath_export template <class T>
 constexpr std::ostream &operator<<(std::ostream &stream, const Vec2T<T> &v) {
     stream << "(" << v.x << ", " << v.y << ")";
     return stream;
 }
 
-using Vec2f = Vec2T<float>;
-using Vec2d = Vec2T<double>;
-using Vec2 = Vec2d;
+matmath_export using Vec2f = Vec2T<float>;
+matmath_export using Vec2d = Vec2T<double>;
+matmath_export using Vec2 = Vec2d;

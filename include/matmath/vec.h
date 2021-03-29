@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "export.h"
+
+#ifndef matmath_use_modules
+
 #include <cmath>
 #include <ostream>
 #if __cplusplus >= 201103L
@@ -11,7 +15,9 @@
 
 #include "pi.h"
 
-template <typename T>
+#endif
+
+matmath_export template <typename T>
 class VecT {
 public:
     T x = 0, y = 0, z = 0;
@@ -183,29 +189,29 @@ public:
 };
 
 //! @brief Write as a string to output
-template <class T>
+matmath_export template <class T>
 constexpr std::ostream &operator<<(std::ostream &out, const VecT<T> &v) {
     out << v.x << ", " << v.y << ", " << v.z;
     return out;
 }
 
-template <class T, class U>
+matmath_export template <class T, class U>
 constexpr auto operator*(T f, const VecT<U> &v) {
     return v * f;
 }
 
-template <typename T>
+matmath_export template <typename T>
 constexpr T abs(const VecT<T> &v) {
     return v.abs();
 }
 
-template <class Ar, typename T>
+matmath_export template <class Ar, typename T>
 constexpr void serialize(Ar &ar, VecT<T> &v) {
     ar &v.x;
     ar &v.y;
     ar &v.z;
 }
 
-using Vecd = VecT<double>;
-using Vecf = VecT<float>;
-using Vec = Vecd;
+matmath_export using Vecd = VecT<double>;
+matmath_export using Vecf = VecT<float>;
+matmath_export using Vec = Vecd;

@@ -15,11 +15,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: update submodules
       run: git submodule update --init
-    - name: clone matmake
-      run: git clone https://github.com/mls-m5/matmake.git
+    - name: clone matmake2
+      run: git clone https://github.com/laserskold/matmake2.git
     - name: install matmake
-      run: make -C matmake install
-    - name: run matmake
-      run: matmake
-    - name: run tests
-      run: matmake test
+      run: make -C matmake2 install
+    - name: install clang
+      run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh &&  sudo ./llvm.sh 11
+    - name: build and test
+      run: matmake2 -t clang --test

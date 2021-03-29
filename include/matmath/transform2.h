@@ -2,11 +2,17 @@
 //! Distributed under terms specified under licence.txt
 #pragma once
 
+#include "matmath/export.h"
+
+#ifndef matmath_use_modules
+
 #include "constmath.h"
 #include "vec2.h"
 #include <iosfwd>
 
-template <class T>
+#endif
+
+matmath_export template <class T>
 class Transform2T {
 public:
     static constexpr auto e = std::numeric_limits<T>::min();
@@ -70,7 +76,7 @@ public:
     Vec2T<T> rotation = {1, 0};
 };
 
-template <class T>
+matmath_export template <class T>
 constexpr Transform2T<T> lerp(Transform2T<T> a, Transform2T<T> b, T amount) {
     auto angleA = a.rotation.angle();
     auto dAngle = b.rotation.angle(angleA);
@@ -90,13 +96,13 @@ constexpr Transform2T<T> lerp(Transform2T<T> a, Transform2T<T> b, T amount) {
     return {posC, angleC, lenC};
 }
 
-template <class T>
+matmath_export template <class T>
 constexpr std::ostream &operator<<(std::ostream &stream,
                                    const Transform2T<T> &t) {
     stream << "transform<" << t.pos << " " << t.rotation << ">";
     return stream;
 }
 
-using Transform2d = Transform2T<double>;
-using Transform2f = Transform2T<float>;
-using Transform2 = Transform2d;
+matmath_export using Transform2d = Transform2T<double>;
+matmath_export using Transform2f = Transform2T<float>;
+matmath_export using Transform2 = Transform2d;
