@@ -122,11 +122,22 @@ public:
         return *this;
     }
 
-    constexpr Matrix &translate(T x, T y, T z = 0) {
+    constexpr Matrix &translateGlobal(T x, T y, T z = 0) {
         x4 += x;
         y4 += y;
         z4 += z;
         return *this;
+    }
+
+    constexpr Matrix &translate(T x, T y, T z = 0) {
+        x4 += x1 * x + x2 * y + x3 * z;
+        y4 += y1 * x + y2 * y + y3 * z;
+        z4 += z1 * x + z2 * y + z3 * z;
+        return *this;
+    }
+
+    constexpr Matrix &translateGlobal(Vec p) {
+        return translateGlobal(p.x, p.y, p.z);
     }
 
     constexpr Matrix &translate(Vec p) {
@@ -145,7 +156,8 @@ public:
         return setTranslation(v.x, v.y, v.z);
     }
 
-    constexpr Matrix &scale(T x, T y, T z = 1.) {
+    //! Scale including positioning
+    constexpr Matrix &scaleGlobal(T x, T y, T z = 1.) {
         // clang-format off
         x1 *= x; y1 *= y; z1 *= z;
         x2 *= x; y2 *= y; z2 *= z;
@@ -155,11 +167,12 @@ public:
         return *this;
     }
 
-    constexpr Matrix &scale(Vec v) {
-        return scale(v.x, v.y, v.z);
+    constexpr Matrix &scaleGlobal(Vec v) {
+        return scaleGlobal(v.x, v.y, v.z);
     }
 
-    constexpr Matrix &scaleLocal(T x, T y, T z) {
+    //! Scale local only
+    constexpr Matrix &scale(T x, T y, T z) {
         // clang-format off
         x1 *= x; y1 *= x; z1 *= x;
         x2 *= y; y2 *= y; z2 *= y;
@@ -168,17 +181,17 @@ public:
         return *this;
     }
 
-    constexpr Matrix &scaleLocal(const Vec &v) {
-        return scaleLocal(v.x, v.y, v.z);
+    constexpr Matrix &scale(const Vec &v) {
+        return scale(v.x, v.y, v.z);
     }
 
     // Return the local scale
-    constexpr Vec scale() {
+    constexpr Vec scaleGlobal() {
         return Vec(row(0).abs(), row(1).abs(), row(2).abs());
     }
 
-    constexpr Matrix &scale(T s) {
-        return scale(s, s, s);
+    constexpr Matrix &scaleGlobal(T s) {
+        return scaleGlobal(s, s, s);
     }
 
     constexpr Matrix &normalizeScale() {

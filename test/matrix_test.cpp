@@ -11,8 +11,12 @@
 
 constexpr double epsilon = 0.000000001;
 
+constexpr bool almostEqual(float a, float b, double epsilon = ::epsilon) {
+    return std::abs(b - a) < epsilon;
+}
+
 template <class T1, class T2>
-bool almostEqual(T1 a, T2 b, double epsilon = ::epsilon) {
+constexpr bool almostEqual(T1 a, T2 b, double epsilon = ::epsilon) {
     return abs(b - a) < epsilon;
 }
 
@@ -54,7 +58,7 @@ TEST_CASE("inverse not normalized") {
     ASSERT_LT((identity - m).sum(), epsilon);
 
     m = Matrixf::RotationX(2);
-    m.scale(2, 3, 4);
+    m.scaleGlobal(2, 3, 4);
 
     auto inv = m.inverse();
 
@@ -64,7 +68,7 @@ TEST_CASE("inverse not normalized") {
     ASSERT_GT(inv.abs2(), epsilon);
     ASSERT_LT((m * inv - identity).abs2(), epsilon);
 
-    m.translate(Vec(30, 40, 50));
+    m.translateGlobal(Vec(30, 40, 50));
     m *= Matrixf::RotationZ(.4);
     inv = m.inverse();
     printMatrix(m);
@@ -80,7 +84,7 @@ TEST_CASE("inverse translation") {
 
     ASSERT_LT((identity - m).sum(), epsilon);
 
-    m.translate(20, 30, 40);
+    m.translateGlobal(20, 30, 40);
 
     auto inv = m.inverse();
     printMatrix(m);
@@ -96,7 +100,7 @@ TEST_CASE("inverse scale") {
 
     ASSERT_LT((identity - m).sum(), epsilon);
 
-    m.scale(20, 30, 40);
+    m.scaleGlobal(20, 30, 40);
 
     auto inv = m.inverse();
     printMatrix(m);
@@ -112,8 +116,8 @@ TEST_CASE("inverse scale + translation") {
 
     ASSERT_LT((identity - m).sum(), epsilon);
 
-    m.scale(20, 30, 40);
-    m.translate(50, 60, 70);
+    m.scaleGlobal(20, 30, 40);
+    m.translateGlobal(50, 60, 70);
 
     auto inv = m.inverse();
     printMatrix(m);
@@ -148,10 +152,10 @@ TEST_CASE("inverse scale + rot + translation") {
 
     ASSERT_LT((identity - m).sum(), epsilon);
 
-    m.scale(20, 30, 40);
+    m.scaleGlobal(20, 30, 40);
     m *= m.RotationX(.4);
     m *= m.RotationY(.4);
-    m.translate(50, 60, 70);
+    m.translateGlobal(50, 60, 70);
 
     auto inv = m.inverse();
     printMatrix(m);
@@ -175,7 +179,7 @@ TEST_CASE("inverse normalized rot+trans") {
     ASSERT_GT(inv.abs2(), epsilon);
     ASSERT_LT((m2 * inv - identity).abs2(), epsilon);
 
-    m2.translate(Vec(30, 40, 50));
+    m2.translateGlobal(Vec(30, 40, 50));
     m2 *= Matrixf::RotationZ(.4);
     inv = m2.inverseNormalized();
     printMatrix(m2);
@@ -195,7 +199,7 @@ TEST_CASE("move vertex") {
 
     printVector(v);
 
-    m.translate(1, 2, 3);
+    m.translateGlobal(1, 2, 3);
 
     printMatrix(m);
 
@@ -307,16 +311,53 @@ TEST_CASE("local scaling of matrices") {
     // clang-format on
 
     printMatrix(m1);
-    printVector(m1.scale());
+    printVector(m1.scaleGlobal());
 
-    ASSERT(almostEqual(m1.scale(), Vec(5, 5, 10)), "scale is wrong in matrix");
+    ASSERT(almostEqual(m1.scaleGlobal(), Vec(5, 5, 10)),
+           "scale is wrong in matrix");
 
     auto m2 = m1;
-    m2.scaleLocal(Vec(2, 2, .5));
+    m2.scale(Vec(2, 2, .5));
     printMatrix(m2);
-    printVector(m2.scale());
-    ASSERT(almostEqual(m2.scale(), Vec(10, 10, 5)),
+    printVector(m2.scaleGlobal());
+    ASSERT(almostEqual(m2.scaleGlobal(), Vec(10, 10, 5)),
            "scale is wrong in matrix after rescaling");
+}
+
+TEST_CASE("simple translation") {
+    constexpr auto m = [] {
+        auto m = Matrixf{};
+
+        m.translate(2, 3, 4);
+
+        return m;
+    }();
+
+    static_assert(almostEqual(m.x4, 2.f));
+    static_assert(almostEqual(m.y4, 3.f));
+    static_assert(almostEqual(m.z4, 4.f));
+}
+
+TEST_CASE("rotated translation") {
+    constexpr auto m = [] {
+        // Cols for each axis
+        // clang-format off
+        auto m = Matrixf{
+            1, 5, 9,  0,
+            2, 6, 10, 0,
+            3, 7, 11, 0,
+            4, 8, 12, 0,
+        };
+        // clang-format on
+
+        m.translate(2, 2, 2);
+
+        return m;
+    }();
+
+    static_assert(almostEqual(m.x4, (1.f + 2.f + 3.f) * 2.f + 4.f));
+    static_assert(almostEqual(m.y4, (5.f + 6.f + 7.f) * 2.f + 8.f));
+    static_assert(almostEqual(m.z4, (9.f + 10.f + 11.f) * 2.f + 12.f));
 }
 
 TEST_SUIT_END

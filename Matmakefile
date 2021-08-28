@@ -19,7 +19,7 @@ all
     -fsanitize-address-use-after-scope
   config =
     debug
-    c++14
+    c++17
   includes =
     include
 
@@ -51,5 +51,5 @@ modules_test
     modules/*.cppm
   command = [test]
   config =
-    c++17
+    c++2a
     modules
