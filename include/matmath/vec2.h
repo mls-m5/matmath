@@ -87,11 +87,15 @@ public:
     }
 
     constexpr Vec2T &scale(T value) {
-        *this *= value;
+        return *this *= value;
     }
 
     constexpr Vec2T operator/(Vec2T v) const {
         return {x / v.x, y / v.y};
+    }
+
+    constexpr Vec2T operator/(T value) const {
+        return {x / value, y / value};
     }
 
     constexpr Vec2T &operator+=(Vec2T v) {
@@ -138,10 +142,6 @@ constexpr auto operator*(T amount, Vec2T<T> v) {
     return v * amount;
 }
 
-matmath_export template <class T>
-constexpr auto operator/(T amount, Vec2T<T> v) {
-    return v / amount;
-}
 
 matmath_export template <class T>
 constexpr std::ostream &operator<<(std::ostream &stream, const Vec2T<T> &v) {
