@@ -172,7 +172,7 @@ public:
     }
 
     //! Scale local only
-    constexpr Matrix &scale(T x, T y, T z) {
+    constexpr Matrix &scale(T x, T y, T z = {}) {
         // clang-format off
         x1 *= x; y1 *= x; z1 *= x;
         x2 *= y; y2 *= y; z2 *= y;
@@ -185,9 +185,14 @@ public:
         return scale(v.x, v.y, v.z);
     }
 
-    // Return the local scale
-    constexpr Vec scaleGlobal() {
-        return Vec(row(0).abs(), row(1).abs(), row(2).abs());
+    // Return the global scale
+    //! Actually not constexpr before cmath functions is
+    constexpr Vec scaleGlobal() const {
+        return Vec{
+            Vec{x1, y1, z1}.abs(),
+            Vec{x2, y2, z2}.abs(),
+            Vec{x3, y3, z3}.abs(),
+        };
     }
 
     constexpr Matrix &scaleGlobal(T s) {
@@ -552,11 +557,14 @@ public:
     //! Convert to Matrix of new type
     template <class type>
     constexpr operator Matrix<type>() const {
-        Matrix<type> ret;
-        for (int i = 0; i < 16; ++i) {
-            ret[i] = at(i);
-        }
-        return ret;
+        // clang-format off
+        return Matrix<type> {
+            x1, y1, z1, w1,
+            x2, y2, z2, w2,
+            x3, y3, z3, w3,
+            x4, y4, z4, w4,
+        };
+        // clang-format on
     }
 
     constexpr static Matrix Scale(T x, T y, T z = 1) {

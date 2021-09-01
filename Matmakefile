@@ -7,7 +7,7 @@ all
     @transform2_test
     @quaternion_test
     @matrix_test
-    @modules_test
+    #@modules_test
   flags =
     -Wextra
     -Wall

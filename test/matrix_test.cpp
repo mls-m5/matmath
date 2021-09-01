@@ -284,36 +284,42 @@ TEST_CASE("set row") {
 }
 
 TEST_CASE("convert from float to double") {
-    // clang-format off
+    constexpr auto m1 = [] {
+        // clang-format off
     Matrixf m1({
         1, 2, 3, 4,
         5, 6, 7, 8,
         9,10,11,12,
         13,14,15,16
     });
-    // clang-format on
+        // clang-format on
+        return m1;
+    }();
 
-    Matrixd m2 = m1;
+    constexpr Matrixd m2 = m1;
 
     printMatrix(m1);
     printMatrix(m2);
     ASSERT(almostEqual(m1, m2), "conversion failed");
 }
 
-TEST_CASE("local scaling of matrices") {
-    // clang-format off
-    Matrixf m1({
-        3, 4, 0, 0,
-        0, 4, 3, 0,
-        0, 6, 8, 0,
-        0, 0, 0, 1,
-    });
-    // clang-format on
+TEST_CASE("globalscaling of matrices") {
+    constexpr auto m1 = [] {
+        // clang-format off
+        Matrixf m1({
+            3, 4, 0, 0,
+            0, 4, 3, 0,
+            0, 6, 8, 0,
+            0, 0, 0, 1,
+        });
+        // clang-format on
+
+        return m1;
+    }();
 
     printMatrix(m1);
-    printVector(m1.scaleGlobal());
 
-    ASSERT(almostEqual(m1.scaleGlobal(), Vec(5, 5, 10)),
+    ASSERT(almostEqual(m1.scaleGlobal(), Vec{5, 5, 10}),
            "scale is wrong in matrix");
 
     auto m2 = m1;
