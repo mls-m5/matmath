@@ -28,6 +28,17 @@ public:
     {}
     // clang-format on
 
+    constexpr Matrix(
+        VecT<T> row1, VecT<T> row2, VecT<T> row3, VecT<T> row4, T w4 = 1)
+        : Matrix(
+              // clang-format off
+              row1.x, row1.y, row1.z, 0,
+              row2.x, row2.y, row2.z, 0,
+              row3.x, row3.y, row3.z, 0,
+              row4.x, row4.y, row4.z, w4
+              // clang-format on
+          ) {}
+
     constexpr Matrix() = default;
     constexpr Matrix(const Matrix &) = default;
     constexpr Matrix &operator=(const Matrix &) = default;
